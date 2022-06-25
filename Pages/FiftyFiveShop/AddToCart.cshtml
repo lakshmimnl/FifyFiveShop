@@ -1,0 +1,15 @@
+﻿@page
+@model FifyFiveShop.Pages.FiftyFiveShop.AddToCartModel
+@{
+
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Transaction"  />
+    <input id="tran" name="tran" asp-for="Transaction" type="text" />
+
+    <br />
+    <input type="submit" value="CheckOut" class="btn btn-primary form-control" asp-route-tran="@Model.Transaction" />
+
+    <label id="lblSum" asp-for="TotalSum" name="totalSum">@ViewData["Total"]</label>
+</form>
