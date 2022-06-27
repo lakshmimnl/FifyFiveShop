@@ -43,8 +43,8 @@
                         </td>
 
                         <td>
-                            <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
-                            <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Edit</a>
+                            @*<button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>*@
+                            <a asp-page="EditProduct" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Edit</a>
                         </td>
                     </tr>
                 }
@@ -57,6 +57,10 @@
     </div>
     <br />
     <br />
+
+    <div >
+        <h2 class="text-info">Special Price List</h2>
+    </div>
     <div class="col-12 border p-3 mt-3">
         @if (Model.PriceRules.Count() > 0)
         {
@@ -89,8 +93,8 @@
                             @Html.DisplayFor(m => item.Price)
                         </td>
                         <td>
-                            <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
-                            <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Edit</a>
+                            @*<button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>*@
+                            <a asp-page="EditRule" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Edit</a>
                         </td>
                     </tr>
                 }
@@ -101,23 +105,38 @@
             <p>No Price Rules available.</p>
         }
     </div>
+    <br />
+    <br />
 
-
+    <div class="container row p-0 m-0">
+        <div class="col-3">
+            <h3 class="text-info">Add Products to Cart here</h3>
+        </div>
         <input type="hidden" asp-for="Transaction" />
-        <input id="tran" name="tran" asp-for="Transaction" type="text" />
+        <div class="col-3">
 
-        <br />
-        <input type="submit" value="CheckOut" class="btn btn-primary form-control" asp-route-tran="@Model.Transaction" />
+            Enter the Product SKU's here (eg, A,B,A,C):
+            <input id="tran" name="tran" type="text" />
+        </div>
+        <div class="col-3">
+            <input type="submit" value="CheckOut" class="btn btn-primary form-control" asp-route-tran="@Model.Transaction" />
+        </div>
+        <div class="col-3">
+            <br />
+            TotalAmount:    <label id="lblSum" name="totalSum">@ViewData["Total"]</label>
+        </div>
+    </div>
 
-        <label id="lblSum" asp-for="TotalSum" name="totalSum">@ViewData["Total"]</label>
+
+
 
 </form>
 
 
-<div class="container row p-0 m-0">
+@*<div class="container row p-0 m-0">
     <div class="col-3">
      
         <a asp-page="AddToCart" class="btn btn-info form-control text-white">Add Products to Cart</a>
     </div>
-</div>
+</div>*@
 

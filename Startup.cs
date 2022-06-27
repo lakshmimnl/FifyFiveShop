@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Swashbuckle.AspNetCore.Swagger;
 namespace FifyFiveShop
 {
     public class Startup
@@ -28,6 +28,7 @@ namespace FifyFiveShop
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddRazorPages();
             services.AddMvc();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +48,7 @@ namespace FifyFiveShop
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+        
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,6 +58,8 @@ namespace FifyFiveShop
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

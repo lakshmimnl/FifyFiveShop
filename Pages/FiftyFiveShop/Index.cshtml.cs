@@ -23,7 +23,7 @@ namespace FifyFiveShop.Pages.FiftyFiveShop
 
         public string Transaction { get; set; }
 
-        public string TotalSum { get; set; }
+        public double TotalSum { get; set; }
 
         public void OnGet()
         {
@@ -38,6 +38,13 @@ namespace FifyFiveShop.Pages.FiftyFiveShop
 
         public ActionResult OnPost(string tran)
         {
+            TotalSum = CalculateTotal(tran);
+            ViewData["Total"] = TotalSum;
+            return Page();
+        }
+
+        public double CalculateTotal(string tran)
+        {
             Products = db.Product.ToList();
             PriceRules = db.PriceRule.ToList();
 
@@ -50,21 +57,22 @@ namespace FifyFiveShop.Pages.FiftyFiveShop
 
             foreach (var item in lstBill)
             {
-                var SplPrice = db.PriceRule.FirstOrDefault(x => x.SKU == item.ProductName && x.Quantity == item.Quantity);
+                var SplPrice = db.PriceRule.FirstOrDefault(x => x.SKU == item.ProductName);//&& x.Quantity == item.Quantity);
+                var unitPrice = db.Product.FirstOrDefault(a => a.SKU == item.ProductName).UnitPrice; 
                 if (SplPrice != null)
                 {
-                    item.Price = SplPrice.Price;
+                    var Units = item.Quantity % SplPrice.Quantity;
+                    var individualItems = item.Quantity - (Units * SplPrice.Quantity);
+
+                    item.Price = (Units * SplPrice.Price)+(individualItems * unitPrice);
                 }
                 else
                 {
-                    item.Price = db.Product.FirstOrDefault(a => a.SKU == item.ProductName).UnitPrice * item.Quantity;
+                    item.Price = unitPrice * item.Quantity;
                 }
 
             }
-            ViewData["Total"] = lstBill.Sum(a => a.Price).ToString();
-         
-            return Page();
+            return lstBill.Sum(a => a.Price);
         }
-
     }
 }
