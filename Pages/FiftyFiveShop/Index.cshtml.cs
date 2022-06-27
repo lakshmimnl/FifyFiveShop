@@ -61,10 +61,18 @@ namespace FifyFiveShop.Pages.FiftyFiveShop
                 var unitPrice = db.Product.FirstOrDefault(a => a.SKU == item.ProductName).UnitPrice; 
                 if (SplPrice != null)
                 {
-                    var Units = item.Quantity % SplPrice.Quantity;
-                    var individualItems = item.Quantity - (Units * SplPrice.Quantity);
+                    int Units = item.Quantity / SplPrice.Quantity;
+                    int individualItems = item.Quantity % SplPrice.Quantity;
+                    if (individualItems == 0)
+                    {
+                        item.Price = Units * SplPrice.Price;
+                    }
+                    else
+                    {
+                       
 
-                    item.Price = (Units * SplPrice.Price)+(individualItems * unitPrice);
+                        item.Price = (Units * SplPrice.Price) + (individualItems * unitPrice);
+                    }
                 }
                 else
                 {
